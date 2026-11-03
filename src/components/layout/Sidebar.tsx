@@ -14,6 +14,7 @@ import {
   Settings,
   Info,
   Binary,
+  Terminal,
 } from 'lucide-react';
 import type { ComponentType } from 'react';
 
@@ -58,6 +59,7 @@ const NAV_GROUPS: NavGroup[] = [
 ];
 
 const FOOTER_ITEMS: NavItem[] = [
+  { to: '/developers', label: 'Developer Hub', icon: Terminal },
   { to: '/settings', label: 'Device Capabilities', icon: Settings },
   { to: '/about', label: 'About & Privacy', icon: Info },
 ];

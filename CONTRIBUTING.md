@@ -35,3 +35,4 @@ Thank you for your interest in contributing to Universal Code Studio.
 3. Ensure the production build passes (`npm run build`).
 4. Commit your changes with clear, semantic commit messages.
 5. Push to the branch and open a Pull Request.
+

@@ -16,6 +16,7 @@ const GS1Page = lazy(() => import('@/modules/gs1/pages/GS1Page'));
 const ConvertPage = lazy(() => import('@/modules/encoding/pages/ConvertPage'));
 const ValidatePage = lazy(() => import('@/modules/encoding/pages/ValidatePage'));
 const SettingsPage = lazy(() => import('@/modules/settings/pages/SettingsPage'));
+const DevelopersPage = lazy(() => import('@/modules/developers/pages/DevelopersPage'));
 const AboutPage = lazy(() => import('@/modules/about/pages/AboutPage'));
 const NotFoundPage = lazy(() => import('@/modules/not-found/NotFoundPage'));
 
@@ -59,6 +60,7 @@ export function AppRouter() {
 
           {/* App */}
           <Route path="settings" element={<SuspenseOutlet><SettingsPage /></SuspenseOutlet>} />
+          <Route path="developers" element={<SuspenseOutlet><DevelopersPage /></SuspenseOutlet>} />
           <Route path="about" element={<SuspenseOutlet><AboutPage /></SuspenseOutlet>} />
 
           {/* Fallback */}

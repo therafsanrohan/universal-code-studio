@@ -185,6 +185,12 @@ export function Footer({ className }: FooterProps) {
               About &amp; Privacy
             </Link>
             <Link
+              to="/developers"
+              className="text-slate-500 hover:text-slate-800 transition-colors focus-visible:outline-2 focus-visible:outline-sky-600"
+            >
+              Developer Hub
+            </Link>
+            <Link
               to="/settings"
               className="text-slate-500 hover:text-slate-800 transition-colors focus-visible:outline-2 focus-visible:outline-sky-600"
             >
