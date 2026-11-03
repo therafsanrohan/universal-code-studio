@@ -15,6 +15,7 @@ import {
   Info,
   Binary,
   Terminal,
+  Layers,
 } from 'lucide-react';
 import type { ComponentType } from 'react';
 
@@ -48,6 +49,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     label: 'Data & Formats',
     items: [
+      { to: '/batch', label: 'Bulk Processing', icon: Layers },
       { to: '/convert', label: 'Radix & Encoding', icon: ArrowLeftRight },
       { to: '/validate', label: 'Checksum Validator', icon: ShieldCheck },
       { to: '/nfc', label: 'NFC / NDEF', icon: Nfc },

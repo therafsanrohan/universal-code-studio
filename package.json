@@ -14,17 +14,21 @@
   "dependencies": {
     "@types/bwip-js": "^3.2.3",
     "@types/jsbarcode": "^3.11.4",
+    "@types/papaparse": "^5.5.2",
     "@types/qrcode": "^1.5.6",
     "@zxing/browser": "^0.2.1",
     "@zxing/library": "^0.23.0",
     "bwip-js": "^4.11.4",
     "html5-qrcode": "^2.3.8",
     "jsbarcode": "^3.12.3",
+    "jszip": "^3.10.2",
     "lucide-react": "^0.460.0",
+    "papaparse": "^5.7.0",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.28.0",
+    "xlsx": "^0.18.5",
     "zod": "^3.24.0"
   },
   "devDependencies": {

@@ -13,6 +13,7 @@ const NfcPage = lazy(() => import('@/modules/nfc/pages/NfcPage'));
 const RfidPage = lazy(() => import('@/modules/rfid/pages/RfidPage'));
 const SmartCardPage = lazy(() => import('@/modules/smart-card/pages/SmartCardPage'));
 const GS1Page = lazy(() => import('@/modules/gs1/pages/GS1Page'));
+const BulkProcessingPage = lazy(() => import('@/modules/batch/pages/BulkProcessingPage'));
 const ConvertPage = lazy(() => import('@/modules/encoding/pages/ConvertPage'));
 const ValidatePage = lazy(() => import('@/modules/encoding/pages/ValidatePage'));
 const SettingsPage = lazy(() => import('@/modules/settings/pages/SettingsPage'));
@@ -55,6 +56,7 @@ export function AppRouter() {
           <Route path="gs1" element={<SuspenseOutlet><GS1Page /></SuspenseOutlet>} />
 
           {/* Tools */}
+          <Route path="batch" element={<SuspenseOutlet><BulkProcessingPage /></SuspenseOutlet>} />
           <Route path="convert" element={<SuspenseOutlet><ConvertPage /></SuspenseOutlet>} />
           <Route path="validate" element={<SuspenseOutlet><ValidatePage /></SuspenseOutlet>} />
 
