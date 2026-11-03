@@ -85,3 +85,4 @@ It expands the initial QR batch generator into a unified, modular, and hardware-
 - **No silent/automatic writes**: Hardware writing is strictly gated by deliberate user action.
 - **Never claim unverified hardware writes**: Writes are marked successful only after the hardware confirms the air-interface write transaction.
 - **Security & Privacy**: Zero server transmission; all CSV/Excel parsing, image generation, and bitstream synthesis run 100% client-side in the browser.
+

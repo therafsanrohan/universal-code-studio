@@ -26,9 +26,6 @@ The project is designed to run as a static web application. Core features should
 | `docs/TEST_STRATEGY.md` | Unit, integration, browser and device testing |
 | `docs/ROADMAP.md` | Phased development plan |
 | `docs/DECISIONS.md` | Architecture decisions and open questions |
-| `AGENTS.md` | Instructions for AI coding agents |
-| `.agent/rules/project.md` | Persistent project rules |
-| `.agent/workflows/implement-module.md` | Repeatable module implementation workflow |
 
 ## Recommended first release
 
@@ -43,6 +40,6 @@ NFC, RFID, BLE, smart-card and IR work should follow as separate capability modu
 
 ## Development
 
-The implementation agent should first inspect the repository and report its current state. If the repository is empty, scaffold a Vite + React + TypeScript application. Keep the build static and compatible with GitHub Pages.
+The project is built as a modern Vite + React + TypeScript static application compatible with GitHub Pages.
 
 Do not add a backend, authentication, analytics, remote database or paid API unless the product owner explicitly changes the requirement.

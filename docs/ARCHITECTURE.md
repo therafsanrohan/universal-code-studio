@@ -96,10 +96,6 @@ universal-code-studio/
 │   ├── integration/
 │   └── e2e/
 ├── docs/
-├── .agent/
-│   ├── rules/
-│   └── workflows/
-├── AGENTS.md
 ├── index.html
 ├── vite.config.ts
 ├── package.json

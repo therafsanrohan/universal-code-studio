@@ -26,7 +26,11 @@ export default function ScanPage() {
       if (scannerRef.current) {
         try {
           if (scannerRef.current.isScanning) {
-            scannerRef.current.stop().catch(() => {});
+            scannerRef.current.stop().catch(() => {}).finally(() => {
+              try { scannerRef.current?.clear(); } catch { /* ignore */ }
+            });
+          } else {
+            try { scannerRef.current.clear(); } catch { /* ignore */ }
           }
         } catch {
           // Ignore unmount error
@@ -52,7 +56,7 @@ export default function ScanPage() {
         text: decodedResult,
         timestamp: new Date().toLocaleTimeString(),
       });
-      html5QrCode.clear();
+      try { html5QrCode.clear(); } catch { /* ignore */ }
     } catch {
       setError('No barcode or QR code detected. Make sure the code is well-lit, sharp, and not cropped.');
     }
@@ -65,12 +69,20 @@ export default function ScanPage() {
     try {
       // Check if getUserMedia exists
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Camera MediaDevices API is not supported in this browser or context.');
+        throw new Error('Camera access is not supported in this browser or context.');
       }
 
-      // Stop previous instance if running
-      if (scannerRef.current && scannerRef.current.isScanning) {
-        await scannerRef.current.stop();
+      // Stop & clear previous instance if running
+      if (scannerRef.current) {
+        try {
+          if (scannerRef.current.isScanning) {
+            await scannerRef.current.stop();
+          }
+          scannerRef.current.clear();
+        } catch {
+          // ignore
+        }
+        scannerRef.current = null;
       }
 
       const readerElement = document.getElementById('camera-reader-element');
@@ -78,37 +90,56 @@ export default function ScanPage() {
         throw new Error('Camera reader container element not found.');
       }
 
+      // Clear any DOM residue inside the container
+      readerElement.innerHTML = '';
+
       const scanner = new Html5Qrcode('camera-reader-element');
       scannerRef.current = scanner;
 
-      // Start video stream with fallback camera config
+      const onScanSuccess = (decodedText: string, decodedResult: any) => {
+        setScanResult({
+          text: decodedText,
+          format: decodedResult.result.format?.formatName,
+          timestamp: new Date().toLocaleTimeString(),
+        });
+        stopCamera();
+      };
+
+      // Try camera devices enumeration first for most reliable target
+      let cameraIdOrConfig: any = { facingMode: 'environment' };
+      try {
+        const devices = await Html5Qrcode.getCameras();
+        if (devices && devices.length > 0) {
+          // Prefer back/environment camera if available, else first camera
+          const backCamera = devices.find((d) =>
+            d.label.toLowerCase().includes('back') || d.label.toLowerCase().includes('rear')
+          );
+          cameraIdOrConfig = backCamera ? backCamera.id : devices[0]!.id;
+        }
+      } catch {
+        // Fallback to constraint if getCameras is restricted
+        cameraIdOrConfig = { facingMode: 'environment' };
+      }
+
       await scanner.start(
-        { facingMode: 'environment' },
+        cameraIdOrConfig,
         {
           fps: 10,
           qrbox: (viewfinderWidth, viewfinderHeight) => {
             const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-            const boxSize = Math.max(180, Math.floor(minEdge * 0.7));
+            const boxSize = Math.max(160, Math.floor(minEdge * 0.7));
             return { width: boxSize, height: boxSize };
           },
         },
-        (decodedText, decodedResult) => {
-          setScanResult({
-            text: decodedText,
-            format: decodedResult.result.format?.formatName,
-            timestamp: new Date().toLocaleTimeString(),
-          });
-          stopCamera();
-        },
+        onScanSuccess,
         () => {
-          // continuous frame scanning (ignore normal non-match frames)
+          // Ignore frame decode misses
         }
       );
 
       setIsScanning(true);
     } catch (err: any) {
-      console.warn('Primary environment camera failed, attempting generic video query:', err);
-      // Fallback try without facingMode constraint if on Mac/PC with external webcam
+      console.warn('Primary camera start failed, attempting user-facing fallback:', err);
       try {
         if (scannerRef.current) {
           await scannerRef.current.start(
@@ -128,7 +159,8 @@ export default function ScanPage() {
           return;
         }
       } catch (fallbackErr: any) {
-        const msg = fallbackErr?.message || err?.message || 'Camera permission denied or camera unavailable.';
+        const msg =
+          fallbackErr?.message || err?.message || 'Camera permission denied or camera device is busy.';
         setError(msg);
         setIsScanning(false);
       }
@@ -143,10 +175,13 @@ export default function ScanPage() {
         }
         scannerRef.current.clear();
       } catch (e) {
-        console.error('Error stopping camera:', e);
+        console.warn('Error stopping camera:', e);
       } finally {
+        scannerRef.current = null;
         setIsScanning(false);
       }
+    } else {
+      setIsScanning(false);
     }
   };
 
