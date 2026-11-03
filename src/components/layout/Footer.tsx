@@ -132,7 +132,7 @@ export function Footer({ className }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`${repoUrl}#documentation`}
+                  href={`${repoUrl}#readme`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-2 focus-visible:outline-sky-600"
@@ -152,7 +152,7 @@ export function Footer({ className }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`${repoUrl}/blob/main/AGENTS.md`}
+                  href={`${repoUrl}/blob/main/CONTRIBUTING.md`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-2 focus-visible:outline-sky-600"
@@ -162,7 +162,7 @@ export function Footer({ className }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`${repoUrl}/blob/main/README.md`}
+                  href={`${repoUrl}/blob/main/LICENSE`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-2 focus-visible:outline-sky-600"
