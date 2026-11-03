@@ -37,6 +37,30 @@ export default function AboutPage() {
         </section>
 
         <section className="mt-6 space-y-3">
+          <h2 className="text-sm font-medium text-gray-900">Credits & Development</h2>
+          <p className="text-sm text-gray-600">
+            Created by{' '}
+            <a
+              href="https://www.rafsanrohan.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-gray-900 underline underline-offset-4 decoration-gray-300 hover:decoration-gray-700"
+            >
+              Rafsan Rohan
+            </a>{' '}
+            (Creator &amp; Project Developer). Developed with{' '}
+            <a
+              href="https://www.creatiancy.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-gray-900 underline underline-offset-4 decoration-gray-300 hover:decoration-gray-700"
+            >
+              Creatiancy
+            </a>.
+          </p>
+        </section>
+
+        <section className="mt-6 space-y-3">
           <h2 className="text-sm font-medium text-gray-900">Open source</h2>
           <p className="text-sm text-gray-600">
             This project is open source. Contributions, bug reports and feature requests

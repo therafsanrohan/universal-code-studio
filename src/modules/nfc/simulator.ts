@@ -43,3 +43,4 @@ export function writeVirtualTag(records: VirtualNDEFRecord[]): VirtualNFCTag {
   };
   return currentTag;
 }
+

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
+import { Footer } from './Footer';
 import { QrCode, Barcode, ScanLine, ArrowLeftRight, Settings } from 'lucide-react';
 
 const BOTTOM_NAV = [
@@ -44,8 +45,11 @@ export function Shell() {
         />
 
         <main className="flex-1 overflow-y-auto px-4 py-5 sm:px-6 sm:py-8 lg:px-10 pb-20 lg:pb-10" id="main-content">
-          <div className="mx-auto max-w-6xl">
-            <Outlet />
+          <div className="mx-auto max-w-6xl flex min-h-full flex-col justify-between">
+            <div>
+              <Outlet />
+            </div>
+            <Footer />
           </div>
         </main>
 
