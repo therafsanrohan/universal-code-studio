@@ -20,10 +20,17 @@ export default function ScanPage() {
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Safe cleanup on unmount
   useEffect(() => {
     return () => {
-      if (scannerRef.current && scannerRef.current.isScanning) {
-        scannerRef.current.stop().catch(() => {});
+      if (scannerRef.current) {
+        try {
+          if (scannerRef.current.isScanning) {
+            scannerRef.current.stop().catch(() => {});
+          }
+        } catch {
+          // Ignore unmount error
+        }
       }
     };
   }, []);
@@ -56,20 +63,33 @@ export default function ScanPage() {
     setScanResult(null);
 
     try {
-      if (!scannerRef.current) {
-        scannerRef.current = new Html5Qrcode('camera-reader-element');
+      // Check if getUserMedia exists
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera MediaDevices API is not supported in this browser or context.');
       }
 
-      await scannerRef.current.start(
+      // Stop previous instance if running
+      if (scannerRef.current && scannerRef.current.isScanning) {
+        await scannerRef.current.stop();
+      }
+
+      const readerElement = document.getElementById('camera-reader-element');
+      if (!readerElement) {
+        throw new Error('Camera reader container element not found.');
+      }
+
+      const scanner = new Html5Qrcode('camera-reader-element');
+      scannerRef.current = scanner;
+
+      // Start video stream with fallback camera config
+      await scanner.start(
         { facingMode: 'environment' },
         {
-          fps: 15,
+          fps: 10,
           qrbox: (viewfinderWidth, viewfinderHeight) => {
             const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-            return {
-              width: Math.floor(minEdge * 0.75),
-              height: Math.floor(minEdge * 0.75),
-            };
+            const boxSize = Math.max(180, Math.floor(minEdge * 0.7));
+            return { width: boxSize, height: boxSize };
           },
         },
         (decodedText, decodedResult) => {
@@ -80,22 +100,52 @@ export default function ScanPage() {
           });
           stopCamera();
         },
-        () => {}
+        () => {
+          // continuous frame scanning (ignore normal non-match frames)
+        }
       );
+
       setIsScanning(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Camera permission was denied or camera hardware is not accessible.');
-      setIsScanning(false);
+    } catch (err: any) {
+      console.warn('Primary environment camera failed, attempting generic video query:', err);
+      // Fallback try without facingMode constraint if on Mac/PC with external webcam
+      try {
+        if (scannerRef.current) {
+          await scannerRef.current.start(
+            { facingMode: 'user' },
+            { fps: 10 },
+            (decodedText, decodedResult) => {
+              setScanResult({
+                text: decodedText,
+                format: decodedResult.result.format?.formatName,
+                timestamp: new Date().toLocaleTimeString(),
+              });
+              stopCamera();
+            },
+            () => {}
+          );
+          setIsScanning(true);
+          return;
+        }
+      } catch (fallbackErr: any) {
+        const msg = fallbackErr?.message || err?.message || 'Camera permission denied or camera unavailable.';
+        setError(msg);
+        setIsScanning(false);
+      }
     }
   };
 
   const stopCamera = async () => {
-    if (scannerRef.current && isScanning) {
+    if (scannerRef.current) {
       try {
-        await scannerRef.current.stop();
-        setIsScanning(false);
+        if (scannerRef.current.isScanning) {
+          await scannerRef.current.stop();
+        }
+        scannerRef.current.clear();
       } catch (e) {
-        console.error('Failed to stop camera scanner', e);
+        console.error('Error stopping camera:', e);
+      } finally {
+        setIsScanning(false);
       }
     }
   };
@@ -196,13 +246,13 @@ export default function ScanPage() {
             <div className="rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-6 shadow-xs">
               <div
                 id="camera-reader-element"
-                className="w-full overflow-hidden rounded-xl bg-slate-950 aspect-4/3 sm:aspect-16/10 flex items-center justify-center text-white text-xs relative"
+                className="w-full overflow-hidden rounded-xl bg-slate-950 min-h-[300px] flex items-center justify-center text-white text-xs relative"
               >
                 {!isScanning && (
                   <div className="text-center p-6 space-y-2">
                     <Camera className="h-10 w-10 mx-auto text-slate-600 mb-2 stroke-[1.5]" />
                     <p className="font-semibold text-slate-300">Camera preview is offline</p>
-                    <p className="text-[11px] text-slate-600 max-w-xs">
+                    <p className="text-[11px] text-slate-500 max-w-xs">
                       Press "Start Camera Scanner" below to request permission and begin scanning.
                     </p>
                   </div>

@@ -46,3 +46,4 @@ describe('UniversalCodeStudio SDK', () => {
     expect(link).toBe('https://id.gs1.org/01/09506000134352?10=BATCH1');
   });
 });
+
