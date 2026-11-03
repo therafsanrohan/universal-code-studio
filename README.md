@@ -13,19 +13,6 @@ The project is designed to run as a static web application. Core features should
 - Separate format logic from interface code.
 - Build in tested increments. Do not implement every protocol in one pass.
 
-## Documentation map
-
-| File | Purpose |
-|---|---|
-| `docs/PRODUCT_SPEC.md` | Product goals, users, scope and acceptance criteria |
-| `docs/FEATURE_MATRIX.md` | Formats, operations and hardware requirements |
-| `docs/ARCHITECTURE.md` | Application structure and technical boundaries |
-| `docs/DOMAIN_LOGIC.md` | Parsing, generation, validation and error-handling rules |
-| `docs/USER_FLOWS.md` | Main journeys and interaction states |
-| `docs/PRIVACY_SECURITY.md` | Privacy, permissions and security requirements |
-| `docs/TEST_STRATEGY.md` | Unit, integration, browser and device testing |
-| `docs/ROADMAP.md` | Phased development plan |
-| `docs/DECISIONS.md` | Architecture decisions and open questions |
 
 ## Recommended first release
 
