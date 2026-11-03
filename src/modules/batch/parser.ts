@@ -116,3 +116,4 @@ export function parseExcelBuffer(buffer: ArrayBuffer): ParsedBatchInput {
     totalRecords: rows.length,
   };
 }
+

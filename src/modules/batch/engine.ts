@@ -214,3 +214,4 @@ export function exportBatchXLSX(results: BatchItemResult[]): Blob {
   const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   return new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 }
+

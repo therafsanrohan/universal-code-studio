@@ -17,6 +17,8 @@ import {
   ArrowRight,
   Shield,
   Layers,
+  Files,
+  Code2,
 } from 'lucide-react';
 
 interface ToolEntry {
@@ -56,10 +58,31 @@ const TOOL_GROUPS: ToolGroup[] = [
       },
       {
         label: '2D Symbologies',
-        description: 'Data Matrix ECC 200, Aztec Code, and PDF417 format specifications and generators.',
+        description: 'Data Matrix ECC 200, Aztec Code, PDF417, and MaxiCode format specifications and generators.',
         to: '/generate/2d',
         icon: Grid3x3,
-        status: 'planned',
+        status: 'available',
+      },
+    ],
+  },
+  {
+    heading: 'Batch Processing & Automation',
+    subheading: 'High-throughput client-side bulk code generator and data converter with ZIP and CSV export.',
+    tools: [
+      {
+        label: 'Bulk Processing Studio',
+        description: 'Process CSV, XLSX, JSON, and raw text files to generate thousands of QR codes and barcodes simultaneously in a ZIP archive.',
+        to: '/batch',
+        icon: Files,
+        status: 'available',
+        badge: 'New',
+      },
+      {
+        label: 'Developer SDK & API Hub',
+        description: 'Headless JavaScript/TypeScript SDK, OpenAPI REST architecture, and embeddable Web Components for integration.',
+        to: '/developers',
+        icon: Code2,
+        status: 'available',
       },
     ],
   },
@@ -105,35 +128,35 @@ const TOOL_GROUPS: ToolGroup[] = [
   },
   {
     heading: 'Hardware & Radio Protocols',
-    subheading: 'Wireless communication protocols, contactless cards, and industrial RFID.',
+    subheading: 'Wireless communication protocols, contactless cards, and industrial RFID with desktop emulators.',
     tools: [
       {
         label: 'NFC / NDEF Studio',
-        description: 'Build and inspect NDEF records (URI, Text, MIME). Web NFC tag reading and writing on supported Android devices.',
+        description: 'Build and inspect NDEF records (URI, Text, MIME). Live Web NFC reading and desktop Virtual NTAG215 emulator.',
         to: '/nfc',
         icon: Nfc,
-        status: 'requires-hardware',
+        status: 'available',
       },
       {
         label: 'RFID / EPC Tools',
         description: 'Encode and inspect GS1 EPC Gen2 SGTIN-96 bit allocations with BigInt-safe numeric precision.',
         to: '/rfid',
         icon: Radio,
-        status: 'requires-hardware',
+        status: 'available',
       },
       {
         label: 'Smart Card APDU & TLV',
         description: 'Parse ISO 7816 BER-TLV structures, inspect ATR responses, and assemble APDU command packets.',
         to: '/smart-card',
         icon: CreditCard,
-        status: 'planned',
+        status: 'available',
       },
       {
         label: 'GS1 Digital Link',
         description: 'Parse application identifiers (AI) and construct modern URI web-syntax GS1 Digital Links.',
         to: '/gs1',
         icon: Package,
-        status: 'planned',
+        status: 'available',
       },
     ],
   },
